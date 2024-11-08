@@ -11,12 +11,10 @@ pipeline {
             }
             steps {
                 sh '''
-                    ls -la
-                    node --version
-                    npm --version
-                    npm i
+                    sudo chown -R node:node /.npm
+                    npm config set cache /workspace/.npm --global
+                    npm ci
                     npm run build
-                    ls -la
                 '''
             }
         }
