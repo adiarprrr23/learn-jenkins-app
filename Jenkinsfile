@@ -23,8 +23,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        mkdir -p ~/.npm
-                        npm config set cache ~/.npm
+                        mkdir -p /home/jenkins/.npm
+                        npm config set cache /home/jenkins/.npm
                         npm install
                     '''
                 }
