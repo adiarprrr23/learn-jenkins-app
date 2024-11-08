@@ -13,7 +13,7 @@ pipeline {
                 sh '''
                     ls -la
                     node --version
-                    npm --versionremoving node_modules and package-lock.json if they exist
+                    npm --version
                     rm -rf node_modules package-lock.json
                     
                     npm ci --verbose
