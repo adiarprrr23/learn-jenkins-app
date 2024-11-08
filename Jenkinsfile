@@ -16,7 +16,7 @@ pipeline {
                     npm --version
                     rm -rf node_modules package-lock.json
                     
-                    npm ci --verbose
+                    npm ci
                     
                     npm run build
                     
