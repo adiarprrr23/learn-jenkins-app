@@ -6,26 +6,21 @@ pipeline {
             agent {
                 docker {
                     image "node:18-alpine"
+                    args "-u node"
                     reuseNode true
                 }
             }
             steps {
                 sh '''
-                    # Create npm global and cache directories in the workspace
-                    mkdir -p /workspace/.npm-global
-                    mkdir -p /workspace/.npm
+                    export NPM_GLOBAL_DIR=/home/node/.npm-global
+                    export NPM_CACHE_DIR=/home/node/.npm
+                    mkdir -p $NPM_GLOBAL_DIR
+                    mkdir -p $NPM_CACHE_DIR
 
-                    # Set npm global prefix and cache paths
-                    npm config set prefix /workspace/.npm-global
-                    npm config set cache /workspace/.npm --global
+                    npm config set prefix $NPM_GLOBAL_DIR
+                    npm config set cache $NPM_CACHE_DIR --global
 
-                    # Change ownership to the non-root user (e.g., 'node')
-                    chown -R node:node /workspace/.npm-global /workspace/.npm
-
-                    # Add npm global bin to PATH
-                    export PATH=/workspace/.npm-global/bin:$PATH
-
-                    # Install dependencies and build the project
+                    export PATH=$NPM_GLOBAL_DIR/bin:$PATH
                     npm ci
                     npm run build
                 '''
