@@ -14,7 +14,8 @@ pipeline {
                     ls -la
                     node --version
                     npm --version
-                    sudo chown -R jenkins:jenkins /.npm
+                    chown -R jenkins:jenkins /.npm || true
+                    npm config set cache /.npm --global
                     npm ci
                     npm run build
                     ls -la
