@@ -23,6 +23,8 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        mkdir -p ~/.npm
+                        npm config set cache ~/.npm
                         npm install
                     '''
                 }
