@@ -11,7 +11,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    sudo chown -R node:node /.npm
+                    chown -R node:node /.npm
                     npm config set cache /workspace/.npm --global
                     npm ci
                     npm run build
