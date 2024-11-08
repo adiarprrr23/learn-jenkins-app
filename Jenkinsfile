@@ -11,8 +11,16 @@ pipeline {
             }
             steps {
                 sh '''
-                    chown -R node:node /.npm
+                    # Set npm cache to a writable directory
                     npm config set cache /workspace/.npm --global
+                    
+                    # Ensure the cache directory exists
+                    mkdir -p /workspace/.npm
+
+                    # Fix permissions for the .npm folder
+                    chown -R node:node /workspace/.npm
+
+                    # Install dependencies and run the build
                     npm ci
                     npm run build
                 '''
