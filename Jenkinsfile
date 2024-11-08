@@ -12,9 +12,9 @@ pipeline {
             steps {
                 sh '''
                     ls -la
-                    node --version
-                    npm --version
-                    npm ci
+                    rm -rf node_modules package-lock.json
+                    ls -la
+                    npm ci --verbose
                     npm run build
                     ls -la
                 '''
