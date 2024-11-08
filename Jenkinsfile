@@ -2,6 +2,33 @@ pipeline {
     agent any
 
     stages {
+        stage('Clean and Install') {
+            steps {
+                script {
+                    sh '''
+                        rm -rf node_modules
+                        rm -f package-lock.json
+                    '''
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            agent {
+                docker {
+                    image "node:18-alpine"
+                    reuseNode true
+                }
+            }
+            steps {
+                script {
+                    sh '''
+                        npm install
+                    '''
+                }
+            }
+        }
+
         stage('Build') {
             agent {
                 docker {
@@ -12,9 +39,9 @@ pipeline {
             steps {
                 sh '''
                     ls -la
-                    rm -rf node_modules package-lock.json
-                    ls -la
-                    npm ci --verbose
+                    node --version
+                    npm --version
+                    npm ci
                     npm run build
                     ls -la
                 '''
